@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Yrityksen Sivusto</title>
+    
+</head>
+<body>
+    <nav>
+        <button onclick="loadContent('pääsivu')">Pääsivu</button>
+        <button onclick="loadContent('yritysesittely')">Yritysesittely</button>
+        <button onclick="loadContent('yhteystiedot')">Yhteystiedot</button>
+        <button onclick="loadStaff()">Henkilökunta</button>
+        <button onclick="loadChat()">Chat</button>
+    </nav>
+    <div id="pin-div">
+        <input id="pin" placeholder="pin code" type="password" />
+        <button onclick="checkPin()">login</button>
+    </div>
+    
+     
+    <div class="hidden"  id="main_alue"></div> 
+
+    <div id="customPrompt" style="display:none;">
+        <div id="promptContent">
+            <h2>Anna nimesi</h2>
+            <input type="text" id="nameInput" />
+            <button id="confirmName">OK</button>
+        </div>
+    </div>   
+    
+    <script>
+
+        //--------log out-----------------------------------------------
+
+        function logOut() {
+            localStorage.clear()
+            window.location.reload()
+        }
+
+        //------- pin koodin tarkistus------------------
+        async function checkpin() {
+            var pin = document.getElementById("pin").value
+            const response = await fetch("http://localhost:3000/api/getpin")
+            const correctPin = await response.json()
+    
+            if (pin == correctPin) {
+            // Kirjoittaminen localstorageen:
+            localStorage.setItem("pinkoodi", pin)
+            showElements()
+            // Tervehdysteksti esille
+            document.getElementById("welcome").style.visibility = "visible"
+             // Tervehdysteksti piiloon 4sek kuluttua
+            setTimeout(() => {
+            document.getElementById("welcome").style.visibility = "hidden"
+            }, 4000)
+         
+        }   
+            else {
+                alert("Väärä pinkoodi")
+        }
+    }
+    async function fetchData() {
+        document.getElementById("sisältö").innerHTML = "<h4>Ladataan herkkuja...</h4>"
+
+        var x = `<table><thead><th>Herkun nimi</th><th>tuotekoodi</th></thead><tbody>`
+
+        try {
+            const response = await fetch("http://localhost:3000/api/herkut")
+
+            const herkkudata = await response.json() // muutetaan json => javascript muotoon
+
+            await herkkudata.map(h => { // loopataan läpi oliot map funktiolla, h on 1 herkkuolio
+            x += `<tr><td>${h.name}</td><td>${h.id}</td></tr>`
+            })
+
+            // taulukko päätetään ja renderöidään html elementtin
+            x += `</tbody></table>`
+            document.getElementById("sisältö").innerHTML = x
+            
+        // Virhetilanteen hallinta
+        } 
+        catch (error) {
+            console.error("Error fetching data:", error)
+        }
+
+        }
+
+        fetchData()
+    function showElements() {
+            var hiddenElements = document.getElementsByClassName("hidden")
+            for (i=0; i < hiddenElements.length; i++){
+            hiddenElements[i].style.visibility = "visible"
+            document.getElementById("pin-div").style.visibility = "hidden"
+            }
+        }
+        function loadContent(page) {
+            let content;
+            switch(page) {
+                case 'pääsivu':
+                    content = '<h1>Tervetuloa Mieli, keho ja olo(MKO) yrityksen sivustolle!</h1>' +
+                              '<h2>Täällä on yrityksemme yleisiä tietoja.</h2>' +
+                              '<p>Autamme ihmisiä henkisesti, sekä myös fyysisesti.</br>' + 
+                              'On terapiaa, ryhmäliikuntaa, kirjakerhoja, joukkuepelejä, hierontaa ja fysioterapiaa.<br/>' + 
+                              'Autamme myös ruokavalion ja painonhallinnan kanssa.<br/>' +
+                              'Meidän järjestämissä palveluissa voit tutustua ihmisiin ja löytää puolison tai ystäviä</p>';
+                    break;
+                case 'yritysesittely':
+                    content = '<h1>Yritysesittely</h1><p>Me olemme esimerkkiyritys, joka tarjoaa parasta palvelua.<br/>' +
+                              'Olemme auttaneet ihmisiä jo vuodesta 2015 lähtien.<br/>' + 
+                              'Olemme voittaneet lukuisia palkintoja ja suosiomme on ollut korkealla pitkään.<br/>' +
+                              'Toimintamme aloitettua, itsemurha tilastot ja yksinäisyys ovat vähentyneet huomattavasti.</p>';
+                    break;
+                case 'yhteystiedot':
+                    content = '<h1>Yhteystiedot</h1><p>Voit ottaa meihin yhteyttä sähköpostilla: info@mielikehojaolo.com</p>'+ 
+                              '<h2> Tai käymällä paikanpäällä osoitteessa: </h2>' +
+                              '<p>Mielikehojaolontie 3 C 17 <br/>' + 
+                              'Porvoo 06100 </p>';
+                    break;
+                default:
+                    content = '<h1>Virhe</h1><p>Sivua ei löytynyt.</p>';
+            }
+            document.getElementById('main_alue').innerHTML = content;
+        }
+
+        function loadStaff() {
+            console.log("Lataamassa henkilökuntaa..."); // Lisää tämä
+            fetch('/henkilokunta')
+                .then(response => response.json())
+                .then(data => {
+                    let staffCards = '<h1>Henkilökunta</h1>';
+                    data.forEach(member => {
+                        staffCards += `
+                            <div class="staff-card">
+                                <h2>${member.nimi}</h2>
+                                <p><strong>Tehtävä:</strong> ${member.tehtava}</p>
+                                <p><strong>Sähköposti:</strong> ${member.sahkoposti}</p>
+                            </div>`;
+                    });
+                    document.getElementById('main_alue').innerHTML = staffCards;
+                })
+                .catch(error => {
+                    console.error('Virhe:', error);
+                });
+        }
+
+        function loadChat() {
+    document.getElementById('main_alue').innerHTML = `
+        <div class="chatti">
+            <h2 id="header">Chat app</h2>
+            <ul id="messages"></ul>
+            <form id="form" action="" class="chatti">
+                <input id="input" autocomplete="off" class="chatti" /><button class="chatti">Send</button>
+            </form>
+        </div>
+    `;
+
+    const socket = io();
+    
+    // Näytetään mukautettu syöttöikkuna
+    document.getElementById('customPrompt').style.display = 'flex';
+
+    document.getElementById('confirmName').onclick = function() {
+        const user = document.getElementById('nameInput').value;
+        if (user) {
+            socket.emit('chat message', user + " liittyi keskusteluun.");
+            document.getElementById('customPrompt').style.display = 'none'; // Piilotetaan prompt
+            initializeChat(socket, user);
+        }
+    };
+}
+
+function initializeChat(socket, user) {
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (input.value) {
+            socket.emit('chat message', user + " kirjoitti: " + input.value);
+            input.value = '';
+        }
+    });
+
+    socket.on('chat message', (msg) => {
+        const item = document.createElement('li');
+        item.textContent = msg;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+    });
+}
+
+
+        // Ladataan pääsivu aluksi
+        loadContent('pääsivu');
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+</body>
+</html>

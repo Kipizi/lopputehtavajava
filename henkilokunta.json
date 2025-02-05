@@ -1,0 +1,27 @@
+[
+    {
+        "nimi": "Kerttu Kehonrakentaja",
+        "tehtava": "Toimitusjohtaja",
+        "sahkoposti": "kerttu.kehonrakentaja@mielikehojaolo.com"
+    },
+    {
+        "nimi": "Matti Manaaja",
+        "tehtava": "Markkinointipäällikkö",
+        "sahkoposti": "Matti manaaja@mielikehojaolo.com"
+    },
+    {
+        "nimi": "Hannu Halaaja",
+        "tehtava": "Myyntipäällikkö",
+        "sahkoposti": "hannu.halaaja@mielikehojaolo.com"
+    },
+    {
+        "nimi": "Jukka Juoksija",
+        "tehtava": "Myyntipäällikkö",
+        "sahkoposti": "Jukka.juoksija@mielikehojaolo.com"
+    },
+    {
+        "nimi": "Taina Tanssija",
+        "tehtava": "Myyntipäällikkö",
+        "sahkoposti": "Taina.tanssija@mielikehojaolo.com"
+    }
+]

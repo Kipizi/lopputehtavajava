@@ -1,0 +1,174 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+}
+
+nav button {
+    color: #fff;
+    background-color: #555;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+nav button:hover {
+    background-color: #777;
+}
+
+#main_alue {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    nav {
+        text-align: center;
+    }
+
+    nav button {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    #main_alue {
+        padding: 10px;
+    }
+
+    table {
+        font-size: 14px; /* Smaller font size for tables on small screens */
+    }
+}
+
+/* Additional styles for very small screens */
+@media (max-width: 400px) {
+    nav {
+        padding: 5px;
+    }
+
+    nav button {
+        padding: 10px; /* Reduce button padding on very small screens */
+    }
+
+    th, td {
+        padding: 8px; /* Reduce padding in table cells */
+    }
+}
+/* styles.css */
+.staff-card {
+    background-color:hsl(59, 85%, 43%);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 600px) {
+    .staff-card {
+        margin: 5px 0;
+        padding: 10px;
+    }
+}
+.hidden {
+    visibility: hidden;
+}
+
+.chatti #header {
+    text-align: center;
+}
+
+.chatti #form {
+    background: rgba(0, 0, 0, 0.15);
+    padding: 0.25rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    height: 3rem;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+}
+
+.chatti #input {
+    border: none;
+    padding: 0 1rem;
+    flex-grow: 1;
+    border-radius: 2rem;
+    margin: 0.25rem;
+}
+
+.chatti #input:focus {
+    outline: none;
+}
+
+.chatti #form > button {
+    background: #333;
+    border: none;
+    padding: 0 1rem;
+    margin: 0.25rem;
+    border-radius: 3px;
+    outline: none;
+    color: #fff;
+}
+
+.chatti #messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chatti #messages > li {
+    padding: 0.5rem 1rem;
+}
+
+.chatti #messages > li:nth-child(odd) {
+    background: #efefef;
+}
+#customPrompt {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#promptContent {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
