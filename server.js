@@ -1,67 +1,63 @@
-const express = require('express');
-const fs = require('fs').promises;
-const path = require('path');
-const { createServer } = require('http');
-const { Server } = require('socket.io');
+// Tuodaan tarvittavat kirjastot
+const express = require('express'); // Express-kirjasto web-sovellusten rakentamiseen
+const fs = require('fs').promises; // Tiedostojen käsittelyyn käytettävä kirjasto
+const path = require('path'); // Polkujen käsittelyyn käytettävä kirjasto
+const { createServer } = require('http'); // HTTP-palvelimen luomiseen
+const { Server } = require('socket.io'); // WebSocket-yhteyksien käsittelyyn
 
-const app = express();
-const PORT = process.env.PORT || 3000; // Allows using the port provided by the hosting platform
-const server = createServer(app);
-const io = new Server(server);
+const app = express(); // Luodaan Express-sovellus
+const PORT = process.env.PORT || 3000; // Määritetään portti
+const server = createServer(app); // Luodaan HTTP-palvelin
+const io = new Server(server); // Luodaan Socket.IO palvelin
 
-// Define the path for the public directory
+// Määritetään polku julkisiin tiedostoihin
 const polku = path.join(__dirname, './public');
 
-// Serve staff information from a JSON file
+// Palvelin toimii /henkilokunta-reitillä ja palauttaa henkilökunta-tiedoston sisällön
 app.get('/henkilokunta', async (req, res) => {
     try {
-        const data = await fs.readFile('henkilokunta.json', 'utf8');
-        res.json(JSON.parse(data));
+        const data = await fs.readFile('henkilokunta.json', 'utf8'); // Luetaan JSON-tiedosto
+        res.json(JSON.parse(data)); // Lähetetään JSON-tietona asiakkaalle
     } catch (err) {
-        res.status(500).send('Virhe tiedoston lukemisessa');
+        res.status(500).send('Virhe tiedoston lukemisessa'); // Virheilmoitus tiedoston lukemisen epäonnistuessa
     }
 });
 
-// Reading PIN code from a text file on the server and sending it to the client
+// Reitti PIN-koodin lukemiselle
 app.get('/api/getpin', async (req, res) => {
     try {
-        // Read the content of the text file
-        const savedPin = await fs.readFile('./pin.txt', 'utf-8');
-        
-        // Send the file content as the response
-        res.json(savedPin);
+        const savedPin = await fs.readFile('./pin.txt', 'utf-8'); // Luetaan PIN-koodi tiedostosta
+        res.json(savedPin); // Lähetetään PIN-koodi asiakkaalle
     } catch (error) {
-        console.error('Error reading file:', error);
-        res.status(500).send('Internal Server Error');
+        console.error('Error reading file:', error); // Virheviesti konsoliin
+        res.status(500).send('Internal Server Error'); // Virheilmoitus
     }
 });
 
-// Serve static files from the public directory
+// Palvellaan staattisia tiedostoja public-kansiosta
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve the HTML file
+// Palvelin palvelee pääsivua
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html')); // Lähetetään index.html-tiedosto
 });
 
-
-
-// Handle Socket.IO connections
+// Käsitellään Socket.IO-yhteydet
 io.on('connection', (socket) => {
-    console.log('Uusi asiakas yhdistetty');
+    console.log('Uusi asiakas yhdistetty'); // Ilmoitus uudesta asiakkaasta
 
-    // When the server receives a message, it emits it to all clients immediately
+    // Kun palvelin vastaanottaa viestin, se lähettää sen kaikille asiakkaille
     socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
+        io.emit('chat message', msg); // Lähetetään viesti kaikille
     });
 
-    // Client disconnect event
+    // Asiakkaan irrottautumis tapahtuma
     socket.on('disconnect', () => {
-        console.log('Asiakas irrottautui');
+        console.log('Asiakas irrottautui'); // Ilmoitus asiakkaan irrottautumisesta
     });
 });
 
-// Start the server
+// Käynnistetään palvelin
 server.listen(PORT, () => {
-    console.log(`Palvelin käynnistetty osoitteessa http://localhost:${PORT}`);
+    console.log(`Palvelin käynnistetty osoitteessa http://localhost:${PORT}`); // Ilmoitus palvelimen käynnistämisestä
 });

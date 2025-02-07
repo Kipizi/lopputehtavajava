@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Linkitetään CSS-tiedosto -->
     <title>Yrityksen Sivusto</title>
-    
 </head>
 <body>
     <nav>
+        <!-- Navigointipainikkeet eri sivuille -->
         <button onclick="loadContent('pääsivu')">Pääsivu</button>
         <button onclick="loadContent('yritysesittely')">Yritysesittely</button>
         <button onclick="loadContent('yhteystiedot')">Yhteystiedot</button>
@@ -17,68 +17,65 @@
         <button id="loggis" class="hidden" onclick="logOut()">Logout</button>
     </nav>
     <div id="pin-div">
-        <input id="pin" placeholder="pin code" type="password" />
-        <button onclick="checkPin()">login</button>
+        <input id="pin" placeholder="pin code" type="password" /> <!-- PIN-koodin syöttö -->
+        <button onclick="checkPin()">login</button> <!-- Kirjaudu-painike -->
+    </div>
+
+    <div id="main_alue">    
+        <!-- Tähän ladataan sisältö -->
     </div>
     
-    <div class="hidden" id="main_alue"></div>
-    
-
     <div class="hidden" id="sisältö"></div>
 
     <div id="overlay"></div>
     <div id="custom-prompt">
         <p>Anna nimesi:</p>
-        <input type="text" id="user-name" placeholder="Nimi">
-        <button onclick="submitName()">Vahvista</button>
-        <button onclick="closePrompt()">Peruuta</button>
+        <input type="text" id="user-name" placeholder="Nimi"> <!-- Käyttäjänimen syöttö -->
+        <button onclick="submitName()">Vahvista</button> <!-- Vahvista-painike -->
+        <button onclick="closePrompt()">Peruuta</button> <!-- Peruuta-painike -->
     </div>
 
     <script>
-
-const savedPin = localStorage.getItem("pinkoodi")
+        // Tarkistetaan, onko PIN-koodi tallennettu paikalliseen tallennustilaan
+        const savedPin = localStorage.getItem("pinkoodi");
         if (savedPin != null && savedPin != undefined) {
-            showElements()
+            showElements(); // Näytetään elementit
         }
-        //--------log out-----------------------------------------------
+
+        // Kirjautumisen ulos toiminto
         function logOut() {
-            localStorage.clear()
-            window.location.reload()
+            localStorage.clear(); // Tyhjennetään paikallinen tallennustila
+            window.location.reload(); // Ladataan sivu uudelleen
         }
 
-         //------- pin koodin tarkistus------------------
-         async function checkPin() {
-            var pin = document.getElementById("pin").value
-            const response = await fetch("http://localhost:3000/api/getpin")
-            const correctPin = await response.json()
-    
-            if (pin == correctPin) {
-            // Kirjoittaminen localstorageen:
-            localStorage.setItem("pinkoodi", pin)
-            showElements()
-            // Tervehdysteksti esille
-            document.getElementById("welcome")
-             // Tervehdysteksti piiloon 4sek kuluttua
-            setTimeout(() => {
-            document.getElementById("welcome")
-            }, 4000)
-         
-        }   
-            else {
-                alert("Väärä pinkoodi")
-        }
-    }
+        // PIN-koodin tarkistus
+        async function checkPin() {
+            var pin = document.getElementById("pin").value; // Haetaan syötetty PIN
+            const response = await fetch("http://localhost:3000/api/getpin"); // Haetaan PIN palvelimelta
+            const correctPin = await response.json(); // Saadaan oikea PIN
 
-        // --------show elements--------------------------------------------------------
-
-        function showElements() {
-            var hiddenElements = document.getElementsByClassName("hidden")
-            for (i=0; i < hiddenElements.length; i++){
-            hiddenElements[i].style.visibility = "visible"
-            document.getElementById("pin-div").style.visibility = "hidden"
+            if (pin == correctPin) { // Jos PIN on oikein
+                localStorage.setItem("pinkoodi", pin); // Tallennetaan PIN paikalliseen tallennustilaan
+                showElements(); // Näytetään elementit
+                document.getElementById("welcome").style.visibility = "visible"; // Näytetään tervetuloa-teksti
+                setTimeout(() => {
+                    document.getElementById("welcome").style.visibility = "hidden"; // Piilotetaan tervetuloa-teksti 4 sekunnin kuluttua
+                }, 4000);
+            } else {
+                alert("Väärä pinkoodi"); // Ilmoitetaan, että PIN on väärä
             }
         }
 
+        // Näytetään piilotetut elementit
+        function showElements() {
+            var hiddenElements = document.getElementsByClassName("hidden");
+            for (i=0; i < hiddenElements.length; i++){
+                hiddenElements[i].style.visibility = "visible"; // Näytetään kaikki piilotetut elementit
+                document.getElementById("pin-div").style.visibility = "hidden"; // Piilotetaan PIN-syöttö
+            }
+        }
+
+        // Sisällön lataus valitun sivun mukaan
         function loadContent(page) {
             let content;
             switch(page) {
@@ -88,141 +85,178 @@ const savedPin = localStorage.getItem("pinkoodi")
                               '<p>Autamme ihmisiä henkisesti, sekä myös fyysisesti.</br>' + 
                               'On terapiaa, ryhmäliikuntaa, kirjakerhoja, joukkuepelejä, hierontaa ja fysioterapiaa.<br/>' + 
                               'Autamme myös ruokavalion ja painonhallinnan kanssa.<br/>' +
-                              'Meidän järjestämissä palveluissa voit tutustua ihmisiin ja löytää puolison tai ystäviä</p>';
+                              'Meidän järjestämissä palveluissa voit tutustua ihmisiin ja löytää puolison tai ystäviä</p>' +
+                              '<h2 id="welcome" class="hidden">Tervetuloa!</h2>'; // Pääsivun sisältö
                     break;
                 case 'yritysesittely':
                     content = '<h1>Yritysesittely</h1><p>Me olemme esimerkkiyritys, joka tarjoaa parasta palvelua.<br/>' +
                               'Olemme auttaneet ihmisiä jo vuodesta 2015 lähtien.<br/>' + 
                               'Olemme voittaneet lukuisia palkintoja ja suosiomme on ollut korkealla pitkään.<br/>' +
-                              'Toimintamme aloitettua, itsemurha tilastot ja yksinäisyys ovat vähentyneet huomattavasti.</p>';
+                              'Toimintamme aloitettua, itsemurha tilastot ja yksinäisyys ovat vähentyneet huomattavasti.</p>'; // Yritysesittelyn sisältö
                     break;
                 case 'yhteystiedot':
                     content = '<h1>Yhteystiedot</h1><p>Voit ottaa meihin yhteyttä sähköpostilla: info@mielikehojaolo.com</p>'+ 
                               '<h2> Tai käymällä paikanpäällä osoitteessa: </h2>' +
                               '<p>Mielikehojaolontie 3 C 17 <br/>' + 
-                              'Porvoo 06100 </p>';
+                              'Porvoo 06100 </p>'; // Yhteystietojen sisältö
                     break;
                 default:
-                    content = '<h1>Virhe</h1><p>Sivua ei löytynyt.</p>';
+                    content = '<h1>Virhe</h1><p>Sivua ei löytynyt.</p>'; // Virhesivu
             }
-            document.getElementById('main_alue').innerHTML = content;
+            document.getElementById('main_alue').innerHTML = content; // Ladataan sisältö pääalueelle
         }
 
+        // Ladataan henkilökunta
         function loadStaff() {
-            console.log("Lataamassa henkilökuntaa...");
-            fetch('/henkilokunta')
-                .then(response => response.json())
+            console.log("Lataamassa henkilökuntaa..."); // Konsoli-ilmoitus
+            fetch('/henkilokunta') // Haetaan henkilökunta palvelimelta
+                .then(response => response.json()) // Muutetaan vastaus JSON-muotoon
                 .then(data => {
-                    let staffCards = '<h1>Henkilökunta</h1>';
+                    let staffCards = '<h1>Henkilökunta</h1>'; // Aloitetaan henkilökuntaosio
                     data.forEach(member => {
                         staffCards += `
                             <div class="staff-card">
                                 <h2>${member.nimi}</h2>
                                 <p><strong>Tehtävä:</strong> ${member.tehtava}</p>
                                 <p><strong>Sähköposti:</strong> ${member.sahkoposti}</p>
-                            </div>`;
+                            </div>`; // Luodaan kortti jokaiselle henkilökunnan jäsenelle
                     });
-                    document.getElementById('main_alue').innerHTML = staffCards;
+                    document.getElementById('main_alue').innerHTML = staffCards; // Ladataan kortit pääalueelle
                 })
                 .catch(error => {
-                    console.error('Virhe:', error);
+                    console.error('Virhe:', error); // Virheviesti konsoliin
                 });
         }
 
+        // Ladataan chat
         function loadChat() {
-            customPrompt();
+            customPrompt(); // Näytetään mukautettu kehote
         }
 
+        // Näytetään mukautettu kehote
         function customPrompt() {
-            document.getElementById('overlay').style.display = 'block';
-            document.getElementById('custom-prompt').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block'; // Näytetään taustavarjo
+            document.getElementById('custom-prompt').style.display = 'block'; // Näytetään mukautettu kehote
         }
 
+        // Suljetaan mukautettu kehote
         function closePrompt() {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('custom-prompt').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none'; // Piilotetaan taustavarjo
+            document.getElementById('custom-prompt').style.display = 'none'; // Piilotetaan mukautettu kehote
         }
 
+        // Vahvistetaan käyttäjän nimi
         function submitName() {
-            const user = document.getElementById('user-name').value.trim();
-            if (user) {
-                closePrompt();
-                const chatContent = `
+            const user = document.getElementById('user-name').value.trim(); // Haetaan käyttäjän syöttämä nimi
+            if (user) { // Jos nimi on annettu
+                closePrompt(); // Suljetaan kehote
+                const chatContent = `            
                     <h1>Chat</h1>
                     <div id="chat-box" style="border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px;">
-                        <div id="messages"></div>
-                    </div>
-                    <input type="text" id="chat-input" placeholder="Kirjoita viesti..." style="width: 70%;" autocomplete="off">
-                    <button onclick="sendMessage('${user}')">Lähetä</button>
-                    <button onclick="clearChat()">Tyhjennä chat</button>
-                `;
-                document.getElementById('main_alue').innerHTML = chatContent;
+                        <div id="messages"></div> <!-- Viestit -->
+                    </div> 
+                    <input type="text" id="chat-input" placeholder="Kirjoita viesti..." style="width: 62%;" autocomplete="off"> 
+                    <button onclick="sendMessage('${user}')">Lähetä</button> <!-- Lähetä-painike -->
+                    <button onclick="clearChat()">Tyhjennä chat</button> </br> <h4 style="display: inline;">Käyttäjänimi:</h4> <span style="color: red;">${user}</span>
+                `;                                                          
+                document.getElementById('main_alue').innerHTML = chatContent; // Ladataan chat-sisältö pääalueelle
                 loadMessages(); // Lataa aiemmat viestit
+                
+                const socket = io(); // Luodaan Socket.IO-yhteys
+                socket.emit('chat message', `<span style="color: red;">${user}</span> liittyi keskusteluun.`); // Ilmoitetaan, että käyttäjä liittyi chattiin
+                document.getElementById('chat-input').focus(); // Asetetaan fokus viestikenttään
 
-                const socket = io();
-                socket.emit('chat message', user + " liittyi keskusteluun.");
-
-                const form = document.querySelector('button');
-                const input = document.getElementById('chat-input');
-                const messages = document.getElementById('messages');
+                const form = document.querySelector('button'); // Haetaan lähetyspainike
+                const input = document.getElementById('chat-input'); // Haetaan viestikenttä
+                const messages = document.getElementById('messages'); // Haetaan viestit
 
                 form.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    sendMessage(user);
+                    e.preventDefault(); // Estetään oletustoiminto
+                    sendMessage(user); // Lähetetään viesti
                 });
 
+                // Vastataan chat-viesteihin
                 socket.on('chat message', (msg) => {
-                    const item = document.createElement('div');
-                    item.textContent = msg;
-                    messages.appendChild(item);
-                    window.scrollTo(0, document.body.scrollHeight);
+                    const item = document.createElement('div'); // Luodaan uusi viestielementti
+                    item.innerHTML = msg; // Asetetaan viestin sisältö
+                    messages.appendChild(item); // Lisätään viesti viestikenttään
+                    const chatBox = document.getElementById('chat-box');
+                    chatBox.scrollTop = chatBox.scrollHeight; // Vieritetään chat alareunaan
                 });
             } else {
-                alert("Chattiin liittyminen epäonnistui, koska nimeä ei annettu.");
+                alert("Chattiin liittyminen epäonnistui, koska nimeä ei annettu."); // Ilmoitus, jos nimeä ei annettu
             }
         }
 
+        // Lähetetään viesti
         function sendMessage(user) {
-            const input = document.getElementById('chat-input');
-            const message = input.value.trim();
-            if (message) {
-                const messagesDiv = document.getElementById('messages');
-                const newMessage = user + ": " + message;
-                messagesDiv.appendChild(createMessageElement(newMessage));
+            const input = document.getElementById('chat-input'); // Haetaan viestikenttä
+            const message = input.value.trim(); // Haetaan syötetty viesti
+            if (message) { // Jos viesti ei ole tyhjää
+                const messagesDiv = document.getElementById('messages'); // Haetaan viestikenttä
+                const newMessage = `<span style="color: red;">${user}</span>: ${message}`; // Luodaan uusi viesti
+                messagesDiv.appendChild(createMessageElement(newMessage)); // Lisätään uusi viesti viestikenttään
 
-                // Tallenna viesti LocalStorageen
-                const chatMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
-                chatMessages.push(newMessage);
-                localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+                // Tallennetaan viesti paikalliseen tallennustilaan
+                const chatMessages = JSON.parse(localStorage.getItem('chatMessages')) || []; // Haetaan aiemmat viestit
+                chatMessages.push(newMessage); // Lisätään uusi viesti
+                localStorage.setItem('chatMessages', JSON.stringify(chatMessages)); // Tallennetaan viestit paikalliseen tallennustilaan
 
-                input.value = '';
+                // Vieritetään chat alareunaan
+                const chatBox = document.getElementById('chat-box');
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                input.value = ''; // Tyhjennetään viestikenttä
+                input.focus(); // Asetetaan fokus viestikenttään
             }
         }
 
+        // Ladataan aiemmat viestit
         function loadMessages() {
-            const messagesDiv = document.getElementById('messages');
-            const chatMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+            const messagesDiv = document.getElementById('messages'); // Haetaan viestikenttä
+            const chatMessages = JSON.parse(localStorage.getItem('chatMessages')) || []; // Haetaan aiemmat viestit
             chatMessages.forEach(message => {
-                messagesDiv.appendChild(createMessageElement(message));
+                messagesDiv.appendChild(createMessageElement(message)); // Lisätään aiemmat viestit viestikenttään
             });
         }
 
+        // Luodaan uusi viestielementti
         function createMessageElement(message) {
-            const messageDiv = document.createElement('div');
-            messageDiv.textContent = message;
-            return messageDiv;
+            const messageElement = document.createElement('div'); // Luodaan uusi div-elementti
+            messageElement.innerHTML = message; // Asetetaan viestin sisältö
+            return messageElement; // Palautetaan uusi viestielementti
         }
 
+        // Tyhjennetään chat
         function clearChat() {
-            const messagesDiv = document.getElementById('messages');
-            messagesDiv.innerHTML = ''; // Tyhjennetään viestit
-            localStorage.removeItem('chatMessages'); // Poistetaan tallennetut viestit LocalStoragesta
+            let countdown = 5; // Laskuri tyhjentämiselle
+            const messagesDiv = document.getElementById('messages'); // Haetaan viestikenttä
+            const countdownMessage = document.createElement('div'); // Luodaan laskuriviesti
+            countdownMessage.style.color = 'red'; // Asetetaan väri punaiseksi
+            messagesDiv.appendChild(countdownMessage); // Lisätään laskuriviesti viestikenttään
+            countdownMessage.innerText = `Tyhjennetään chatti ${countdown} sekunnin päästä`; // Näytetään laskuri
+            
+            const chatBox = document.getElementById('chat-box'); // Haetaan chat-box
+            chatBox.scrollTop = chatBox.scrollHeight; // Vieritetään alareunaan
+            
+            const interval = setInterval(() => {
+                countdown--; // Vähennetään laskuria
+                if (countdown >= 1) {
+                    countdownMessage.innerText = `Tyhjennetään chatti ${countdown} sekunnin päästä`; // Näytetään laskuri
+                } else {
+                    clearInterval(interval); // Lopetetaan intervalli
+                    messagesDiv.innerHTML = ''; // Tyhjennetään viestit
+                    localStorage.removeItem('chatMessages'); // Poistetaan viestit paikallisesta tallennustilasta
+                    countdownMessage.innerText = 'Chatti tyhjennetty'; // Ilmoitetaan, että chatti on tyhjennetty
+                    document.getElementById('chat-input').focus(); // Asetetaan fokus syöttökenttään
+                }
+            }, 1000); // 1 sekunnin välein
         }
 
         // Ladataan pääsivu aluksi
-        loadContent('pääsivu');
+        loadContent('pääsivu'); // Ladataan pääsivun sisältö
     </script>
 
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script> <!-- Linkitetään Socket.IO -->
 </body>
 </html>

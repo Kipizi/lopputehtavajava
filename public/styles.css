@@ -1,206 +1,210 @@
-/* styles.css */
+/* Yleiset tyylit */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
+    font-family: Arial, sans-serif; /* Fontti */
+    background-color: #f4f4f4; /* Taustaväri */
+    margin: 0; /* Marginaalit nollataan */
+    padding: 20px; /* Sisennys */
 }
 
+/* Navigaatiopalkin tyylit */
 nav {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
+    background-color: #333; /* Taustaväri */
+    color: #fff; /* Tekstin väri */
+    padding: 10px; /* Sisennys */
 }
 
+/* Navigaatiopainikkeiden tyylit */
 nav button {
-    color: #fff;
-    background-color: #555;
-    border: none;
-    padding: 10px 15px;
-    margin: 5px;
-    cursor: pointer;
+    color: #fff; /* Tekstin väri */
+    background-color: #555; /* Taustaväri */
+    border: none; /* Ilman reunusta */
+    padding: 10px 15px; /* Sisennys */
+    margin: 5px; /* Marginaali */
+    cursor: pointer; /* Kursorin muutos */
 }
 
+/* Navigaatiopainikkeiden hover-tila */
 nav button:hover {
-    background-color: #777;
+    background-color: #777; /* Taustaväri hover-tilassa */
 }
 
+/* Pääalueen tyylit */
 #main_alue {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    margin-top: 20px; /* Ylämarginaali */
+    padding: 15px; /* Sisennys */
+    background-color: #fff; /* Taustaväri */
+    border: 1px solid #ddd; /* Reunaviiva */
 }
 
+/* Taulukoiden tyylit */
 table {
-    width: 100%;
-    border-collapse: collapse;
+    width: 100%; /* Taulukon leveys */
+    border-collapse: collapse; /* Reunaviivojen yhdistäminen */
 }
 
 th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    padding: 10px; /* Sisennys */
+    text-align: left; /* Tekstin tasaus */
+    border-bottom: 1px solid #ddd; /* Alaosa reunaviiva */
 }
 
-/* Media queries for responsiveness */
+/* Media kyselyt responsiivisuudelle */
 @media (max-width: 600px) {
     body {
-        padding: 10px;
+        padding: 10px; /* Pienempi sisennys pienillä näytöillä */
     }
 
     nav {
-        text-align: center;
+        text-align: center; /* Keskitetään navigaatio */
     }
 
     nav button {
-        display: block;
-        width: 100%;
-        margin: 5px 0;
+        display: block; /* Näytetään painikkeet lohkona */
+        width: 100%; /* Painikkeiden leveys */
+        margin: 5px 0; /* Vertikaalinen marginaali */
     }
 
     #main_alue {
-        padding: 10px;
+        padding: 10px; /* Pienempi sisennys */
     }
 
     table {
-        font-size: 14px; /* Smaller font size for tables on small screens */
+        font-size: 14px; /* Pienempi fonttikoko taulukolle pienillä näytöillä */
     }
 }
 
-/* Additional styles for very small screens */
+/* Lisätyylit erittäin pienille näytöille */
 @media (max-width: 400px) {
     nav {
-        padding: 5px;
+        padding: 5px; /* Pienempi sisennys */
     }
 
     nav button {
-        padding: 10px; /* Reduce button padding on very small screens */
+        padding: 10px; /* Pienempi sisennys painikkeissa */
     }
 
     th, td {
-        padding: 8px; /* Reduce padding in table cells */
+        padding: 8px; /* Pienempi sisennys taulukon soluille */
     }
 }
-/* styles.css */
+
+/* Henkilökunnan korttien tyylit */
 .staff-card {
-    background-color:hsl(59, 85%, 43%);
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin: 10px 0;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color:hsl(59, 85%, 43%); /* Taustaväri */
+    border: 1px solid #ddd; /* Reunaviiva */
+    border-radius: 5px; /* Kulmien pyöristys */
+    margin: 10px 0; /* Marginaali ylös ja alas */
+    padding: 15px; /* Sisennys */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Varjo */
 }
 
+/* Responsiiviset tyylit henkilökunnan korteille */
 @media (max-width: 600px) {
     .staff-card {
-        margin: 5px 0;
-        padding: 10px;
+        margin: 5px 0; /* Pienempi marginaali */
+        padding: 10px; /* Pienempi sisennys */
     }
 }
+
+/* Piilotettavien elementtien tyylit */
 .hidden {
-    visibility: hidden;
-    }
-    .visible
-    {
-        visibility: visible
-    }
-
-#welcome {
-    visibility: hidden;
-    color: green;
-    background-color: silver;
-    border-radius: 20px;
-    border-width: 2px;
-    border-style: solid;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    max-width: 50%;
+    visibility: hidden; /* Piilotetaan elementti */
 }
 
+.visible {
+    visibility: visible; /* Näytetään elementti */
+}
+
+/* Tervetuloa-tekstin tyylit */
+#welcome {
+    visibility: hidden; /* Piilotetaan tervetuloa-teksti aluksi */
+    color: gold; /* Tekstin väri */
+}
+
+/* Chatin tyylit */
 .chatti #header {
-    text-align: center;
+    text-align: center; /* Keskitetään header */
 }
 
 .chatti #form {
-    background: rgba(0, 0, 0, 0.15);
-    padding: 0.25rem;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    height: 3rem;
-    box-sizing: border-box;
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.15); /* Taustaväri */
+    padding: 0.25rem; /* Sisennys */
+    position: fixed; /* Kiinnitetään alareunaan */
+    bottom: 0; /* Alareuna */
+    left: 0; /* Vasen reuna */
+    right: 0; /* Oikea reuna */
+    display: flex; /* Flex-kontaineri */
+    height: 3rem; /* Korkeus */
+    box-sizing: border-box; /* Boksin koko */
+    backdrop-filter: blur(10px); /* Taustan sumentaminen */
 }
 
 .chatti #input {
-    border: none;
-    padding: 0 1rem;
-    flex-grow: 1;
-    border-radius: 2rem;
-    margin: 0.25rem;
+    border: none; /* Ilman reunusta */
+    padding: 0 1rem; /* Sisennys */
+    flex-grow: 1; /* Joustava kasvu */
+    border-radius: 2rem; /* Kulmien pyöristys */
+    margin: 0.25rem; /* Marginaali */
 }
 
 .chatti #input:focus {
-    outline: none;
+    outline: none; /* Poistetaan reunus fokusissa */
 }
 
 .chatti #form > button {
-    background: #333;
-    border: none;
-    padding: 0 1rem;
-    margin: 0.25rem;
-    border-radius: 3px;
-    outline: none;
-    color: #fff;
+    background: #333; /* Taustaväri */
+    border: none; /* Ilman reunusta */
+    padding: 0 1rem; /* Sisennys */
+    margin: 0.25rem; /* Marginaali */
+    border-radius: 3px; /* Kulmien pyöristys */
+    outline: none; /* Poistetaan reunus */
+    color: #fff; /* Tekstin väri */
 }
 
 .chatti #messages {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+    list-style-type: none; /* Poistetaan listatyylit */
+    margin: 0; /* Marginaalit nollataan */
+    padding: 0; /* Sisennys nollataan */
 }
 
 .chatti #messages > li {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem; /* Sisennys */
 }
 
 .chatti #messages > li:nth-child(odd) {
-    background: #efefef;
+    background: #efefef; /* Taustaväri parittomille viesteille */
 }
 
-        /* Mukautetun promptin tyylit */
-        #custom-prompt {
-            display: none;
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            border: 1px solid #ccc;
-            background: white;
-            z-index: 1000;
-        }
-        #overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-   #loggis{
-    background-color:#fff;
-    color: black;
-   }
-   #loggis:hover {
-    background-color: #555;
-    color: white;
+/* Mukautetun promptin tyylit */
+#custom-prompt {
+    display: none; /* Piilotetaan aluksi */
+    position: fixed; /* Kiinnitetään keskelle */
+    left: 50%; /* Vasemmalta 50% */
+    top: 50%; /* Ylhäältä 50% */
+    transform: translate(-50%, -50%); /* Keskitetään */
+    padding: 20px; /* Sisennys */
+    border: 1px solid #ccc; /* Reunaviiva */
+    background: white; /* Taustaväri */
+    z-index: 1000; /* Ylinnä näkyvyys */
 }
 
+#overlay {
+    display: none; /* Piilotetaan aluksi */
+    position: fixed; /* Kiinnitetään koko näytölle */
+    top: 0; /* Ylhäältä 0% */
+    left: 0; /* Vasemmalta 0% */
+    width: 100%; /* Leveys 100% */
+    height: 100%; /* Korkeus 100% */
+    background: rgba(0, 0, 0, 0.5); /* Taustaväri */
+    z-index: 999; /* Toiseksi ylimmäksi näkyvyys */
+}
 
+#loggis {
+    background-color: #fff; /* Taustaväri */
+    color: black; /* Tekstin väri */
+}
 
+#loggis:hover {
+    background-color: #555; /* Hover-tilan taustaväri */
+    color: white; /* Hover-tilan tekstin väri */
+}
