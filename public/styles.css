@@ -193,5 +193,14 @@ th, td {
             background: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
-   
+   #loggis{
+    background-color:#fff;
+    color: black;
+   }
+   #loggis:hover {
+    background-color: #555;
+    color: white;
+}
+
+
 
